@@ -1,0 +1,114 @@
+<div *ngIf="formSubmitted && deliveryBoyForm.pristine" class="submitted"> Form Submitted Successfully...</div>
+<div class="deliverBoy">
+
+<form [formGroup]="deliveryBoyForm" (ngSubmit)="onFormSubmit()">
+
+  <div class="row">
+    <div class="col-sm-4">
+      <md-form-field >
+      <input mdInput formControlName="empid" placeholder="Employee ID">
+      <label *ngIf="deliveryBoyForm.get('empid').invalid && deliveryBoyForm.get('empid').dirty" class="error">Employee ID is required</label>
+      </md-form-field>
+    </div> 
+    <div class="col-sm-4">
+      <md-form-field>
+      <input mdInput formControlName="firstName" placeholder="First Name">
+      </md-form-field>
+    </div>  
+    <div class="col-sm-4">
+      <md-form-field>
+      <input mdInput formControlName="lastName" placeholder="Last Name">
+      </md-form-field>
+    </div> 
+  </div>
+  
+  <h4>Given Deliverables</h4>
+  <div class="row">
+    <div class="col-sm-3">
+      <md-select formControlName="noOfGivenCylinders" placeholder="Number of cylinders" >
+      <md-option *ngFor="let cylinder of cylinders" [value]="cylinder.value">
+      {{cylinder.viewValue}}
+      </md-option>
+      </md-select>
+    </div>
+    <div class="col-sm-3">
+      <md-select formControlName="noOfGivenPipes" placeholder="Number of Pipes" >
+        <md-option *ngFor="let pipe of pipes" [value]="pipe.value">
+        {{pipe.viewValue}}          
+        </md-option>  
+        </md-select>
+    </div>
+    <div class="col-sm-3">
+      <md-select formControlName="noOfGivenOvans" placeholder="Number of Ovans">
+        <md-option *ngFor="let ovan of ovans" [value]="ovan.value">
+          {{ovan.viewValue}}
+        </md-option>
+        </md-select>
+    </div>
+    <div class="col-sm-3">
+      <md-select formControlName="noOfGivenRegulators" placeholder="Number of Regulators">
+        <md-option *ngFor="let regulator of regulators" [value]="regulator.value">
+          {{regulator.viewValue}}
+        </md-option>
+        </md-select>
+    </div>
+  </div>
+  
+
+  <h4>Returned Deliverables</h4>
+  <div class="row">
+    <div class="col-sm-3">
+      <md-select formControlName="noOfReturnedCylinders" placeholder="Number of cylinders" [(ngModel)]="noOfCylinders" name="cylinder">
+      <md-option *ngFor="let cylinder of cylinders" [value]="cylinder.value">
+      {{cylinder.viewValue}}
+      </md-option>
+      </md-select>
+    </div>
+    <div class="col-sm-3">
+      <md-select formControlName="noOfReturnedPipes" placeholder="Number of Pipes">
+        <md-option *ngFor="let pipe of pipes" [value]="pipe.value">
+        {{pipe.viewValue}}          
+        </md-option>  
+        </md-select>
+    </div>
+    <div class="col-sm-3">
+      <md-select formControlName="noOfReturnedOvans" placeholder="Number of Ovans">
+        <md-option *ngFor="let ovan of ovans" [value]="ovan.value">
+          {{ovan.viewValue}}
+        </md-option>
+        </md-select>
+    </div>
+    <div class="col-sm-3">
+      <md-select formControlName="noOfReturnedRegulators" placeholder="Number of Regulators">
+        <md-option *ngFor="let regulator of regulators" [value]="regulator.value">
+          {{regulator.viewValue}}
+        </md-option>
+        </md-select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-3">
+      <md-form-field >
+      <input mdInput formControlName="amountPaid" placeholder="Amount Paid">
+      </md-form-field>
+    </div>
+    <div class="col-sm-3">
+      <md-form-field>
+      <input mdInput formControlName="returnedAmount" placeholder="Returned Amount">
+    </md-form-field>
+    </div>
+    <div class="col-sm-3">
+      <md-form-field >
+      <input mdInput formControlName="personalExpenses" placeholder="Personal expenses">
+      </md-form-field>
+    </div>
+    
+  </div>
+
+      <div class="example-button-row">
+    <button [disabled]="deliveryBoyForm.invalid" md-raised-button color="primary">Done</button>
+  <button md-button color="primary">Cancel</button>  
+  </div>
+</form>
+</div>

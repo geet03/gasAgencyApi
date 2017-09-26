@@ -1,0 +1,102 @@
+
+<style type="text/css">
+  .gender{font-weight: 100;}
+  .mat-form-field{width:100%;}
+  form{margin-top: 30px}
+</style>
+<form #myForm="ngForm" (ngSubmit)="submitForm()">
+  
+  <div class="row">
+  <div class="col-sm-4">
+    <md-form-field >
+      <input mdInput placeholder="First name"  name="model.firstName" [(ngModel)]="model.firstName">
+    </md-form-field>
+  </div>
+  <div class="col-sm-4">
+    <md-form-field >
+      <input mdInput placeholder="Middle Name" name="model.middleName" [(ngModel)]="model.middleName">
+    </md-form-field>
+  </div>
+  <div class="col-sm-4">
+    <md-form-field >
+      <input mdInput placeholder="Last Name" name="model.lastName" [(ngModel)]="model.lastName">
+    </md-form-field>
+  </div>
+  </div>
+
+  <div class="row">
+  <div class="col-sm-4">
+    <label class="gender">Gender:</label><br />
+    <md-radio-group class="example-radio-group" name="model.gender" [(ngModel)]="model.gender">
+    <md-radio-button  value="male">Male</md-radio-button>
+    <md-radio-button  value="female">Female</md-radio-button>  
+    </md-radio-group>
+  </div> 
+  <div class="col-sm-4">
+    <md-form-field>
+    <input mdInput [mdDatepicker]="picker" placeholder="Date Of Birth" name="model.dob" [(ngModel)]="model.dob">
+    <md-datepicker-toggle mdSuffix [for]="picker"></md-datepicker-toggle>
+    <md-datepicker #picker></md-datepicker>
+    </md-form-field>
+  </div>
+  <div class="col-sm-4">
+    <md-form-field>
+      <input mdInput placeholder="Blood Group" name="model.bloodGroup" [(ngModel)]="model.bloodGroup"> 
+    </md-form-field>
+  </div> 
+  </div>
+ 
+    <div class="row">
+      <div class="col-sm-4">
+        <md-form-field class="example-full-width">
+        <input mdInput placeholder="Aadhar Number" name="model.aadharNo" [(ngModel)]="model.aadharNo            ">
+        </md-form-field>
+      </div>
+
+      <div class="col-sm-4">
+        <md-form-field class="example-full-width">
+        <input mdInput [mdDatepicker]="Joiningpicker" placeholder="Joining date" name="model.doj" [(ngModel)]="model.doj">
+        <md-datepicker-toggle mdSuffix [for]="Joiningpicker"></md-datepicker-toggle>
+        <md-datepicker #Joiningpicker></md-datepicker>
+        </md-form-field>
+      </div>
+      <div class="col-sm-4">
+        <md-form-field class="example-full-width">
+        <input mdInput placeholder="Email" name="model.email" [(ngModel)]="model.email">
+        </md-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <md-form-field class="example-full-width">
+        <input mdInput placeholder="Address" name="model.address" [(ngModel)]="model.address">
+        </md-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4">
+        <md-form-field class="example-full-width">
+        <input mdInput placeholder="City" name="model.city" [(ngModel)]="model.city">
+        </md-form-field>
+      </div>
+      <div class="col-sm-4">
+        <md-form-field class="example-full-width">
+        <input mdInput placeholder="State" name="model.state" [(ngModel)]="model.state">
+        </md-form-field>
+      </div>
+      <div class="col-sm-4">
+        <md-form-field class="example-full-width">
+        <input mdInput #postalCode maxlength="5" placeholder="Postal Code" name="model.postalCode" [(ngModel)]="model.postalCode" >
+      <!--<md-hint align="end">{{postalCode.value.length}} / 5</md-hint>-->
+        </md-form-field>
+      </div>
+    </div>
+   
+  <div class="col-md-7 col-md-offset-4">
+    <button md-raised-button color="primary">Done</button>
+    <button md-button color="primary">Cancel</button>  
+  </div>
+  
+</form>

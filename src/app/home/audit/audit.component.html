@@ -1,0 +1,86 @@
+<div class="audit">
+	<!--<form>
+		<div class="row">
+			<div class="col-sm-6">
+				<md-form-field>
+        		<input mdInput [mdDatepicker]="startdatePicker" placeholder="Select Start Date">
+        		<md-datepicker-toggle mdSuffix [for]="startdatePicker"></md-datepicker-toggle>
+        		<md-datepicker #startdatePicker></md-datepicker>
+        		</md-form-field>
+			</div>
+
+			<div class="col-sm-6">
+				<md-form-field>
+        		<input mdInput [mdDatepicker]="enddatePicker" placeholder="Select End Date">
+        		<md-datepicker-toggle mdSuffix [for]="enddatePicker"></md-datepicker-toggle>
+        		<md-datepicker #enddatePicker></md-datepicker>
+        		</md-form-field>
+			</div>
+		</div>-->
+
+		<div class="row">
+			<div class="col-sm-6">		
+            <form [formGroup]="myForm" (ngSubmit)="onSubmitReactiveForms()" novalidate>
+            	<label>select The Date Range: </label>
+                <my-date-range-picker 	placeholder="select date range" name="reactiveFormsDateRange" [options]="myDateRangePickerOptions" formControlName="myDateRange"></my-date-range-picker>
+                    <div>
+                        <button class="button" type="submit">Submit</button>
+                        <button class="button" type="button" (click)="setDateRange()">Set Range (today)</button>
+                        <button class="button" type="button" (click)="resetDateRange()">Reset Range (today)</button>
+                        <button class="button" type="button" (click)="clearDateRange()">Set Empty</button>
+                        <p class="error" *ngIf="myForm.controls.myDateRange.errors">Date range is required!</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+		<div class="container">
+		<div class="col-sm-12">
+	<md-table #table [dataSource]="dataSource">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Position Column -->
+    <ng-container mdColumnDef="empid">
+      <md-header-cell *mdHeaderCellDef> No. </md-header-cell>
+      <md-cell *mdCellDef="let element"> {{element.empid}} </md-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container mdColumnDef="name">
+      <md-header-cell *mdHeaderCellDef> Name </md-header-cell>
+      <md-cell *mdCellDef="let element"> {{element.name}} </md-cell>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container mdColumnDef="givenAmount">
+      <md-header-cell *mdHeaderCellDef> Given Amount</md-header-cell>
+      <md-cell *mdCellDef="let element"> {{element.givenAmount}} </md-cell>
+    </ng-container>
+
+    <!-- Color Column -->
+    <ng-container mdColumnDef="returnedAmount">
+      <md-header-cell *mdHeaderCellDef> Returned Amount </md-header-cell>
+      <md-cell *mdCellDef="let element"> {{element.returnedAmount}} </md-cell>
+    </ng-container>
+
+    <ng-container mdColumnDef="diff">
+      <md-header-cell *mdHeaderCellDef>difference</md-header-cell>
+      <md-cell *mdCellDef="let element"> {{element.givenAmount-element.returnedAmount}} </md-cell>
+    </ng-container>
+
+    <md-header-row *mdHeaderRowDef="displayedColumns"></md-header-row>
+    <md-row *mdRowDef="let row; columns: displayedColumns;"></md-row>
+  </md-table>	
+
+<md-paginator #paginator
+                [length]="getlength()"
+                [pageIndex]="0"
+                [pageSize]="5"
+                [pageSizeOptions]="[5, 10, 25, 100]">
+  </md-paginator>  
+		</div>	
+		</div>
+	<!--</form>-->	
+</div>
