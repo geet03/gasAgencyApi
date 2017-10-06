@@ -13,68 +13,63 @@ import { Employee } from '../home/employee/employee';
 @Injectable()
 export class EmployeeService {
 
-    private static handleError(error: Response | any) {
-        // In a real world app, you might use a remote logging infrastructure
-        let errMsg: string;
-        if (error instanceof Response) {
-            if (error.status === 404) {
-                errMsg = `Resource ${error.url} was not found`;    
-            } else {
-                const body = error.json() || '';
-                const err = body.error || JSON.stringify(body);
-                errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-            }
-        } else {
-            errMsg = error.message ? error.message : error.toString();
-        }
+    //URL for CRUD operations
+    empUrl = "http://localhost:3000/employees";
 
-        return Observable.throw(errMsg);
+    constructor(private http: Http,private router:Router) { }
+
+
+
+    //Create employee
+    createEmployee(employee: Employee):Observable<number> {
+    let cpHeaders = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: cpHeaders });
+        return this.http.post(this.empUrl, employee, options)
+               .map(success => success.status)
+               .catch(this.handleError);
     }
 
-  constructor(private http: Http,private router:Router) { }
-
-      createEmployee(employee: Employee): Observable<Employee> {
-        return this.http.post('/api/employee', employee)
-            .map(response => response.json() )  //as Employee
-            .catch(EmployeeService.handleError);
+    private extractData(res: Response) {
+    let body = res.json();
+        return body;
+    }
+    private handleError (error: Response | any) {
+    console.error(error.message || error);
+    return Observable.throw(error.status);
     }
 
-    getAll() {
-        return this.http.get('/api/employees/', this.token()).map((response: Response) => response.json());
-    }
- 
-    getById(id: number) {
-        return this.http.get('/api/employees/' + id, this.token()).map((response: Response) => response.json());
-    }
- 
-    create(employee: Employee) {
-        let currentUrl = this.router.url; 
-        console.log("current url :"+currentUrl);
-        console.log(currentUrl);
-        console.log("inside service");
-        //console.log(this.route.url);
-        //console.log(this.http.post('/home', employee, this.token()).map((response: Response) => response.json()));
-        //console.log("response");
-        return this
-                .http
-                .post('/api/employee', employee, this.token())
-                .map((response: Response) => response.json());
-
-                }
- 
-    update(employee: Employee) {
-        return this.http.put('/api/employees/' + employee.empid, employee, this.token()).map((response: Response) => response.json());
-    }
- 
-    delete(id: number) {
-        return this.http.delete('/api/employees/' + id, this.token()).map((response: Response) => response.json());
-    }
- 
-    // private helper methods 
-    private token(){
-        let header=new Headers({'Content-Type': 'application/json'});
-        let options = new RequestOptions({ headers: header });
-        return options;
+    //Fetch all employees
+    getAllEmployees(): Observable<Employee[]> {
+        return this.http.get(this.empUrl)
+       .map(this.extractData)
+       .catch(this.handleError);
     }
 
+    //Fetch employee by id
+    getEmployeeById(empid: number): Observable<Employee> {
+    let cpHeaders = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: cpHeaders });
+    console.log(this.empUrl +"/"+ empid);
+    return this.http.get(this.empUrl +"/"+ empid)
+       .map(this.extractData)
+       .catch(this.handleError);
+    }    
+    //Update Employee
+    updateEmployee(employee: Employee):Observable<number> {
+    let cpHeaders = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: cpHeaders });
+        return this.http.put(this.empUrl +"/"+ employee.id, employee, options)
+               .map(success => success.status)
+               .catch(this.handleError);
+    }
+    //Delete Employee    
+    deleteEmployeeById(empid: number): Observable<number> {
+    let cpHeaders = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: cpHeaders });
+    return this.http.delete(this.empUrl +"/"+ empid)
+           .map(success => success.status)
+               .catch(this.handleError);
+    }    
+
+    
 }

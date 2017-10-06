@@ -20,5 +20,10 @@ export class HomeComponent  {
     {label: 'Audit', link: 'audit'}
     ];
    }
+
+   fun(){
+     var currentRouteConfig = this.router.config.find(f=>f.path == this.router.url.substr(1));
+     console.log('currentRouteConfig--->'+JSON.stringify(currentRouteConfig));
+   }
 }
 

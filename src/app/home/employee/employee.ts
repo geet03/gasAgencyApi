@@ -1,16 +1,18 @@
-export interface Employee {
-    empid : number;
-    firstName:string;
-    middleName:string;
-    lastName:string;
-    gender:string;
-    dob:Date;
-    bloodGroup:string;
-    aadharNo:number;
-    doj:Date;
-    email:string;
-    address : string;
-    city : string;
-    state:string;
-    postalCode:number;
+export class Employee {
+    constructor(
+    public id : number,
+    public firstName:string,
+    public middleName:string,
+    public lastName:string,
+    public gender:string,
+    public dob:Date,
+    public bloodGroup:string,
+    public aadharNo:number,
+    public doj:Date,
+    public email:string,
+    public address : string,
+    public city : string,
+    public state:string,
+    public postalCode:number,
+        ){}
 }

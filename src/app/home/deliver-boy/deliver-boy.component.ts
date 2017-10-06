@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormArray, Validators, FormBuilder } from '@angular/forms';
 
 import { DeliveryBoyService } from './service/delivery-boy.service';
+import { EmployeeService,AlertService } from '../../_services/index';
 import { DeliveryBoy } from './deliver-boy.model';
 
 @Component({
@@ -12,18 +13,29 @@ import { DeliveryBoy } from './deliver-boy.model';
 export class DeliverBoyComponent implements OnInit {
 	deliveryBoyForm: FormGroup;
 	formSubmitted = false;
+	statusCode: number;
+	allDBs: DeliveryBoy[];
 
 	constructor(
 		private deliverBoyService : DeliveryBoyService,
-		private formBuilder : FormBuilder) { }
+		private formBuilder : FormBuilder,
+		private employeeService : EmployeeService) { }
 
 	ngOnInit() {
   		this.createForm();
   }
 
+  myEvent(empid:number){
+  	this.employeeService.getEmployeeById(empid)
+  						.subscribe(employee=>{
+  							this.deliveryBoyForm.setValue({ firstName: employee.firstName, lastName: employee.lastName });
+  						});				
+  		console.log('event-----empid----->'+empid);
+  }
+
   createForm(){
   	this.deliveryBoyForm= this.formBuilder.group({
-  		empid :'',
+  		id :'',
 		firstName :'',
 		lastName:'',
 		noOfGivenCylinders:'',
@@ -41,7 +53,7 @@ export class DeliverBoyComponent implements OnInit {
   }
 
   load(empid : string){
-  		this.deliverBoyService.getDeliveryBoyByEmpid(empid)
+  		this.deliverBoyService.getArticleById(empid)
   			.subscribe(deliverBoy => {
   				this.createFormWithDeafaultData(deliverBoy);
   			});
@@ -49,7 +61,7 @@ export class DeliverBoyComponent implements OnInit {
 
   createFormWithDeafaultData(deliverBoy : DeliveryBoy){
   	this.deliveryBoyForm.patchValue({
-  		empid : deliverBoy.empid,
+  		empid : deliverBoy.id,
 		firstName : deliverBoy.firstName,
 		lastName:deliverBoy.lastName,
 		noOfGivenCylinders:deliverBoy.noOfGivenCylinders,
@@ -66,14 +78,45 @@ export class DeliverBoyComponent implements OnInit {
   	});
   }
 
+  //Fetch all articles
+   getAllArticles() {
+        this.deliverBoyService.getAllArticles()
+		  .subscribe(
+                data => this.allDBs = data,
+                errorCode =>  this.statusCode = errorCode);  
+
+                console.log('allDBs'+this.allDBs); 
+   }
+
+   //Go back from update to create
+   backToCreateArticle() {
+      //this.articleIdToUpdate = null;
+      this.deliveryBoyForm.reset();	  
+	  //this.processValidation = false;
+   }
+
   onFormSubmit(){
-  	let data=JSON.stringify(this.deliveryBoyForm.value);
-  	console.log('--------Delivery Boy In JSON');
-  	console.log(data);
-  	let deliverBoy : DeliveryBoy =this.deliveryBoyForm.value;
-  	this.deliverBoyService.saveDeliveryBoy(deliverBoy);
+
+  	let deliverBoy = this.deliveryBoyForm.value;
+  	//let data=JSON.stringify(this.deliveryBoyForm.value);
+  	//console.log('--------Delivery Boy In JSON');
+  	//console.log(data);
+  	//let deliverBoy : DeliveryBoy =this.deliveryBoyForm.value;
+  	//console.log('deliverBoy---->'+deliverBoy);
+  	this.deliverBoyService.createArticle(deliverBoy)
+			  .subscribe(successCode => {
+					this.statusCode = successCode;
+					this.getAllArticles();	
+					this.backToCreateArticle();
+				 },
+				 errorCode => this.statusCode = errorCode
+			   );
   	this.formSubmitted=true;
   	this.deliveryBoyForm.reset();
+  }
+
+  search(){
+  	
   }
 
 	noOfCylinders:number;

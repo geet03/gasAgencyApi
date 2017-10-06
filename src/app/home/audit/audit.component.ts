@@ -9,6 +9,10 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/map';
+import {  DeliveryBoyService  } from '../deliver-boy/service/delivery-boy.service';
+import { DeliveryBoy } from '../deliver-boy/deliver-boy.model';
+
+//export var allDBs: DeliveryBoy[]=[];
 
 @Component({
   selector: 'app-audit',
@@ -16,6 +20,13 @@ import 'rxjs/add/operator/map';
   styleUrls: ['./audit.component.css']
 })
 export class AuditComponent implements OnInit {
+
+  id :number;
+  name : string;
+  givenAmount:number;
+  returnedAmount:number;
+  statusCode: number;
+  public allDBs: DeliveryBoy[];
 
 	private myDateRangePickerOptions: IMyDrpOptions = {
         dateFormat: 'dd.mm.yyyy',
@@ -30,7 +41,7 @@ export class AuditComponent implements OnInit {
 
   	@ViewChild( MdPaginator ) paginator : MdPaginator;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder,private deliveryBoyService:DeliveryBoyService) { }   
 
   getlength(){
   	return data.length;
@@ -50,6 +61,12 @@ export class AuditComponent implements OnInit {
   		let beginDate,endDate: Date = new Date();
   		beginDate=this.myForm.controls['myDateRange'].value.beginDate;
   		endDate=this.myForm.controls['myDateRange'].value.endDate;
+      this.deliveryBoyService.getAllArticles()
+      .subscribe(
+                data => this.allDBs = data,
+                errorCode =>  this.statusCode = errorCode); 
+
+        console.log('allDBs---->'+this.allDBs);         
   		//console.log('begin date' + JSON.stringify(beginDate));
   		//console.log('end date '+ JSON.stringify(endDate));
   		console.log('begin date' + beginDate);
@@ -115,8 +132,12 @@ const data: Element[] = [
 
 export class ExampleDataSource extends DataSource<any> {
 
+
 	dataChange: BehaviorSubject<Element[]> = new BehaviorSubject<Element[]>(data);
 	get data(): Element[] { return this.dataChange.value; }
+  
+
+
 
 	constructor(private paginator : MdPaginator){super();}
   /** Connect function called by the table to retrieve one stream containing the data to render. */

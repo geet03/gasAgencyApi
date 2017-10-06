@@ -1,22 +1,22 @@
-<div class="app-content">
+<div class="col-md-6 col-md-offset-3">
    <div class="group">
 
     <form role="form" (submit)="login()"><br>
-      <md-input-container>
+      <md-input-container >
         <input mdInput type="text" required [(ngModel)]="model.username" id="username" name="username" >
         <md-error>Username is required</md-error>
         <md-placeholder>
           <i class="material-icons app-input-icon">face</i>Username
         </md-placeholder>
       </md-input-container><br><br>
-      <md-input-container>
+      <md-input-container >
         <input mdInput type="password" required [(ngModel)]="model.password" id="password" name="password" >
         <md-error>password is required</md-error>
         <md-placeholder >
           <i class="material-icons app-input-icon">lock_open</i>Password
         </md-placeholder>
       </md-input-container><br><br>
-      <button md-raised-button color="warn" type="submit" name="action">LOGIN</button>
+      <button md-raised-button color="primary" type="submit" name="action">LOGIN</button>
       <a md-raised-button routerLink="/register">Register</a>
       <br><br>
       <span id="err"><small>{{errorMsg}}</small></span>

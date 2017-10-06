@@ -1,10 +1,12 @@
-<p><a [routerLink]="['/login']">Logout</a></p> 
+<!--<div><ng-md-icon icon="logout" size="48"></ng-md-icon><br>logout</div>-->
+    <i class="material-icons app-input-icon">logout</i>
+    <!--<a [routerLink]="['/login']">Logout</a>-->
  <md-icon color="primary">logout</md-icon>
  <md-toolbar color="primary">
- <span > Employee </span>
+ <span > Gas Agency</span>
  </md-toolbar>
- <nav md-tab-nav-bar  aria-label="weather navigation links">
-    <a md-tab-link md-stretch-tabs="always"
+ <nav md-tab-nav-bar md-stretch-tabs="always" aria-label="weather navigation links">
+    <a md-tab-link 
         *ngFor="let routeLink of routeLinks; let i = index"
          [routerLink]="routeLink.link"
          [active]="activeLinkIndex === i"
@@ -12,14 +14,5 @@
          {{routeLink.label}}
      </a>
 </nav>
+<!--<p>{{fun()}}</p>-->
 <router-outlet></router-outlet>
- 
-<!--<md-tab-group md-stretch-tabs="always" (selectedIndexChange)="onTabChange($event)">
-  <md-tab *ngFor="let tab of tabs; let i = index">
-    <ng-template md-tab-label>{{ tab.label }}</ng-template>
-  </md-tab>
-</md-tab-group>
-
-<div #tabContent></div>-->
-
-

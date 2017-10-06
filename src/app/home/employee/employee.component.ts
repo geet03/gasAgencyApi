@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormArray, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { EmployeeService,AlertService } from '../../_services/index';
+
+import { Employee } from './employee';
 
 
 @Component({
@@ -12,78 +14,103 @@ import { EmployeeService,AlertService } from '../../_services/index';
 })
 export class EmployeeComponent implements OnInit {
 
- /*employee : Employee={
-     empid: any,
+empForm: FormGroup;
+model: any = {};
+loading = false;
+statusCode: number;
+allEmployees: Employee[];
+empIdToUpdate = null;
+processValidation = false;
+requestProcessing = false;
+
+  constructor(private formBuilder:FormBuilder,private employeeService: EmployeeService,private alertService: AlertService) { }
+
+  ngOnInit() {
+  	this.createEmpForm();
+  }
+
+  createEmpForm(){
+    this.empForm=this.formBuilder.group({
+     id: '',
      firstName:'',
      middleName:'',
      lastName:'',
      gender:'',
-     dob:new Date,
+     dob:null,
      bloodGroup:'',
+     email:'',
      aadharNo:'',
-     doj:new Date,
+     doj:null,
      address:'',
      city:'',
      state:'',
-     postalCode:any
-
- };*/
-	
-model: any = {};
-loading = false;
-//empForm : FormGroup;
-/*new Employee(1,
-                  'Geetanjali',
-                  'Anand',
-                  'Khabale',
-                  'female',
-                  new Date("February 3, 2016"),
-                  'O+',
-                  111111222222,
-                  new Date("March 3 2017"),
-                  'gitanjalikhabale@gmail.com',
-                  'Wai',
-                  'Wai',
-                  'Maharashtra',
-                  412803
-  );*/
-  constructor(private employeeService: EmployeeService,private alertService: AlertService) { }
-
-  ngOnInit() {
-  	//this._service.checkCredentials();
+     postalCode:''
+    });
   }
 
-  //@ViewChild('myForm') NgForm myForm;
+  //Fetch all articles
+   getAllEmployees() {
+        this.employeeService.getAllEmployees()
+    .subscribe(
+                data => this.allEmployees = data,
+                errorCode =>  this.statusCode = errorCode);   
+   }
 
-  submitForm() {
-        this.loading = true;
-        console.log(this.model);
-        this.employeeService.create(this.model)
-            .subscribe(
-                data => {
-                    // set success message and pass true paramater to persist the message after redirecting to the login page
-                    this.alertService.success('Registration successful', true);
-                    //this.router.navigate(['/login']);
-                },
-                error => {
-                    this.alertService.error(error);
-                    this.loading = false;
-                });
+   //Go back from update to create
+   backToCreateEmployee() {
+      this.empIdToUpdate = null;
+      //this.empForm.reset();    
+      this.processValidation = false;
+   }
+
+   //Perform preliminary processing configurations
+   preProcessConfigurations() {
+      this.statusCode = null;
+    this.requestProcessing = true;   
+   }
+
+  onFormSubmit() {
+    this.processValidation = true;   
+    if (this.empForm.invalid) {
+         return; //Validation failed, exit from method.
+    }   
+    //Form is valid, now perform create or update
+      this.preProcessConfigurations();
+    let article = this.empForm.value;
+    if (this.empIdToUpdate === null) {  
+      //Generate article id then create article
+        this.employeeService.getAllEmployees()
+       .subscribe(articles => {
+       
+       //Generate article id   
+       let maxIndex = articles.length - 1;
+       let articleWithMaxIndex = articles[maxIndex];
+       let articleId = articleWithMaxIndex.id + 1;
+       article.id = articleId;
+       
+       //Create article
+          this.employeeService.createEmployee(article)
+        .subscribe(successCode => {
+          this.statusCode = successCode;
+          this.getAllEmployees();  
+          this.backToCreateEmployee();
+         },
+         errorCode => this.statusCode = errorCode
+         );
+     });    
+    } else {  
+         //Handle update article
+        article.id = this.empIdToUpdate;     
+      this.employeeService.updateEmployee(article)
+        .subscribe(successCode => {
+                this.statusCode = successCode;
+            this.getAllEmployees();  
+          this.backToCreateEmployee();
+          },
+            errorCode => this.statusCode = errorCode);    
     }
-
-  /*submitForm(form: any) : void {
-    this.loading = true;
-    this.employeeService.create*/
-
-    //console.log('you submitted value:', form);
- //alert(JSON.stringify(this.model));
- //}
-
-  /*logout(){
-  	this._service.logout();
   }
 
-  get currentEmp()
-  { return JSON.stringify(this.model) };*/
+  
 
 }

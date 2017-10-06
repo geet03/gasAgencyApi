@@ -6,8 +6,8 @@
   <div class="row">
     <div class="col-sm-4">
       <md-form-field >
-      <input mdInput formControlName="empid" placeholder="Employee ID">
-      <label *ngIf="deliveryBoyForm.get('empid').invalid && deliveryBoyForm.get('empid').dirty" class="error">Employee ID is required</label>
+      <input mdInput formControlName="id" placeholder="Employee ID" (input)="myEvent($event.target.value)">
+      <label *ngIf="deliveryBoyForm.get('id').invalid && deliveryBoyForm.get('id').dirty" class="error">Employee ID is required</label>
       </md-form-field>
     </div> 
     <div class="col-sm-4">
@@ -21,93 +21,95 @@
       </md-form-field>
     </div> 
   </div>
-  
-  <h4>Given Deliverables</h4>
-  <div class="row">
-    <div class="col-sm-3">
-      <md-select formControlName="noOfGivenCylinders" placeholder="Number of cylinders" >
-      <md-option *ngFor="let cylinder of cylinders" [value]="cylinder.value">
-      {{cylinder.viewValue}}
-      </md-option>
-      </md-select>
-    </div>
-    <div class="col-sm-3">
-      <md-select formControlName="noOfGivenPipes" placeholder="Number of Pipes" >
-        <md-option *ngFor="let pipe of pipes" [value]="pipe.value">
-        {{pipe.viewValue}}          
-        </md-option>  
-        </md-select>
-    </div>
-    <div class="col-sm-3">
-      <md-select formControlName="noOfGivenOvans" placeholder="Number of Ovans">
-        <md-option *ngFor="let ovan of ovans" [value]="ovan.value">
-          {{ovan.viewValue}}
-        </md-option>
-        </md-select>
-    </div>
-    <div class="col-sm-3">
-      <md-select formControlName="noOfGivenRegulators" placeholder="Number of Regulators">
-        <md-option *ngFor="let regulator of regulators" [value]="regulator.value">
-          {{regulator.viewValue}}
-        </md-option>
-        </md-select>
-    </div>
-  </div>
-  
-
-  <h4>Returned Deliverables</h4>
-  <div class="row">
-    <div class="col-sm-3">
-      <md-select formControlName="noOfReturnedCylinders" placeholder="Number of cylinders" [(ngModel)]="noOfCylinders" name="cylinder">
-      <md-option *ngFor="let cylinder of cylinders" [value]="cylinder.value">
-      {{cylinder.viewValue}}
-      </md-option>
-      </md-select>
-    </div>
-    <div class="col-sm-3">
-      <md-select formControlName="noOfReturnedPipes" placeholder="Number of Pipes">
-        <md-option *ngFor="let pipe of pipes" [value]="pipe.value">
-        {{pipe.viewValue}}          
-        </md-option>  
-        </md-select>
-    </div>
-    <div class="col-sm-3">
-      <md-select formControlName="noOfReturnedOvans" placeholder="Number of Ovans">
-        <md-option *ngFor="let ovan of ovans" [value]="ovan.value">
-          {{ovan.viewValue}}
-        </md-option>
-        </md-select>
-    </div>
-    <div class="col-sm-3">
-      <md-select formControlName="noOfReturnedRegulators" placeholder="Number of Regulators">
-        <md-option *ngFor="let regulator of regulators" [value]="regulator.value">
-          {{regulator.viewValue}}
-        </md-option>
-        </md-select>
-    </div>
-  </div>
 
   <div class="row">
-    <div class="col-sm-3">
-      <md-form-field >
+    <div class="col-sm-4">
+      <md-form-field class="padding">
       <input mdInput formControlName="amountPaid" placeholder="Amount Paid">
       </md-form-field>
     </div>
-    <div class="col-sm-3">
-      <md-form-field>
+    <div class="col-sm-4">
+      <md-form-field class="padding">
       <input mdInput formControlName="returnedAmount" placeholder="Returned Amount">
     </md-form-field>
     </div>
-    <div class="col-sm-3">
-      <md-form-field >
+    <div class="col-sm-4">
+      <md-form-field class="padding" >
       <input mdInput formControlName="personalExpenses" placeholder="Personal expenses">
       </md-form-field>
+    </div>    
+  </div>
+  
+  <div class="row" align="center"><h5>Given Deliverables</h5></div>
+  <div class="row">
+    <div class="col-sm-3">
+      <md-select formControlName="noOfGivenCylinders" placeholder="Cylinders" >
+      <md-option *ngFor="let cylinder of cylinders" [value]="cylinder.value">
+      {{cylinder.viewValue}}
+      </md-option>
+      </md-select>
     </div>
-    
+    <div class="col-sm-3">
+      <md-select formControlName="noOfGivenPipes" placeholder="Pipes" >
+        <md-option *ngFor="let pipe of pipes" [value]="pipe.value">
+        {{pipe.viewValue}}          
+        </md-option>  
+        </md-select>
+    </div>
+    <div class="col-sm-3">
+      <md-select formControlName="noOfGivenOvans" placeholder="Ovans">
+        <md-option *ngFor="let ovan of ovans" [value]="ovan.value">
+          {{ovan.viewValue}}
+        </md-option>
+        </md-select>
+    </div>
+    <div class="col-sm-3">
+      <md-select formControlName="noOfGivenRegulators" placeholder="Regulators">
+        <md-option *ngFor="let regulator of regulators" [value]="regulator.value">
+          {{regulator.viewValue}}
+        </md-option>
+        </md-select>
+    </div>
+  </div>
+  
+
+  <div class="row" align="center"><h5 color="primary">Returned Deliverables</h5></div>
+  <div class="row">
+    <div class="col-sm-3">
+      <md-select formControlName="noOfReturnedCylinders" placeholder="Cylinders">
+      <md-option *ngFor="let cylinder of cylinders" [value]="cylinder.value">
+      {{cylinder.viewValue}}
+      </md-option>
+      </md-select>
+    </div>
+    <div class="col-sm-3">
+      <md-select formControlName="noOfReturnedPipes" placeholder="Pipes">
+        <md-option *ngFor="let pipe of pipes" [value]="pipe.value">
+        {{pipe.viewValue}}          
+        </md-option>  
+        </md-select>
+    </div>
+    <div class="col-sm-3">
+      <md-select formControlName="noOfReturnedOvans" placeholder="Ovans">
+        <md-option *ngFor="let ovan of ovans" [value]="ovan.value">
+          {{ovan.viewValue}}
+        </md-option>
+        </md-select>
+    </div>
+    <div class="col-sm-3">
+      <md-select formControlName="noOfReturnedRegulators" placeholder="Regulators">
+        <md-option *ngFor="let regulator of regulators" [value]="regulator.value">
+          {{regulator.viewValue}}
+        </md-option>
+        </md-select>
+    </div>
   </div>
 
-      <div class="example-button-row">
+  
+
+    <div class="col-md-7 col-md-offset-4">
     <button [disabled]="deliveryBoyForm.invalid" md-raised-button color="primary">Done</button>
+    <button [disabled]="deliveryBoyForm.invalid" md-raised-button color="primary"  (click)="clearDateRange()" >search</button>
   <button md-button color="primary">Cancel</button>  
   </div>
 </form>

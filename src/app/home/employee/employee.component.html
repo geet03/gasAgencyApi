@@ -4,22 +4,26 @@
   .mat-form-field{width:100%;}
   form{margin-top: 30px}
 </style>
-<form #myForm="ngForm" (ngSubmit)="submitForm()">
-  
+<div *ngIf="formSubmitted && empForm.pristine" class = "submitted"> Form submitted successfully. </div>
+<div class="employee">
+<form [formGroup]="empForm" (ngSubmit)="onFormSubmit()">
   <div class="row">
   <div class="col-sm-4">
     <md-form-field >
-      <input mdInput placeholder="First name"  name="model.firstName" [(ngModel)]="model.firstName">
+      <input mdInput formControlName="firstName" placeholder="First name">
+      <br/><label *ngIf="empForm.get('firstName').invalid && empForm.get('firstName').dirty" class = "error">First name is required. </label>
     </md-form-field>
   </div>
   <div class="col-sm-4">
     <md-form-field >
-      <input mdInput placeholder="Middle Name" name="model.middleName" [(ngModel)]="model.middleName">
+      <input mdInput formControlName="middleName" placeholder="Middle Name">
+      <br/><label *ngIf="empForm.get('middleName').invalid && empForm.get('middleName').dirty" class = "error">Middle name is required.</label>
     </md-form-field>
   </div>
   <div class="col-sm-4">
     <md-form-field >
-      <input mdInput placeholder="Last Name" name="model.lastName" [(ngModel)]="model.lastName">
+      <input mdInput formControlName="lastName" placeholder="Last Name">
+      <br/><label *ngIf="empForm.get('lastName').invalid && empForm.get('lastName').dirty" class = "error">Last name is required.</label>
     </md-form-field>
   </div>
   </div>
@@ -27,42 +31,42 @@
   <div class="row">
   <div class="col-sm-4">
     <label class="gender">Gender:</label><br />
-    <md-radio-group class="example-radio-group" name="model.gender" [(ngModel)]="model.gender">
+    <md-radio-group class="example-radio-group" formControlName="gender">
     <md-radio-button  value="male">Male</md-radio-button>
     <md-radio-button  value="female">Female</md-radio-button>  
     </md-radio-group>
   </div> 
   <div class="col-sm-4">
     <md-form-field>
-    <input mdInput [mdDatepicker]="picker" placeholder="Date Of Birth" name="model.dob" [(ngModel)]="model.dob">
+    <input mdInput [mdDatepicker]="picker" placeholder="Date Of Birth"  formControlName="dob">
     <md-datepicker-toggle mdSuffix [for]="picker"></md-datepicker-toggle>
     <md-datepicker #picker></md-datepicker>
     </md-form-field>
   </div>
   <div class="col-sm-4">
     <md-form-field>
-      <input mdInput placeholder="Blood Group" name="model.bloodGroup" [(ngModel)]="model.bloodGroup"> 
+      <input mdInput placeholder="Blood Group" formControlName="bloodGroup"> 
     </md-form-field>
   </div> 
   </div>
  
     <div class="row">
       <div class="col-sm-4">
-        <md-form-field class="example-full-width">
-        <input mdInput placeholder="Aadhar Number" name="model.aadharNo" [(ngModel)]="model.aadharNo            ">
+        <md-form-field >
+        <input mdInput placeholder="Aadhar Number" formControlName="aadharNo">
         </md-form-field>
       </div>
 
       <div class="col-sm-4">
-        <md-form-field class="example-full-width">
-        <input mdInput [mdDatepicker]="Joiningpicker" placeholder="Joining date" name="model.doj" [(ngModel)]="model.doj">
+        <md-form-field >
+        <input mdInput [mdDatepicker]="Joiningpicker" placeholder="Joining date" formControlName="doj">
         <md-datepicker-toggle mdSuffix [for]="Joiningpicker"></md-datepicker-toggle>
         <md-datepicker #Joiningpicker></md-datepicker>
         </md-form-field>
       </div>
       <div class="col-sm-4">
-        <md-form-field class="example-full-width">
-        <input mdInput placeholder="Email" name="model.email" [(ngModel)]="model.email">
+        <md-form-field >
+        <input mdInput placeholder="Email" formControlName="email">
         </md-form-field>
       </div>
     </div>
@@ -70,7 +74,7 @@
     <div class="row">
       <div class="col-sm-6">
         <md-form-field class="example-full-width">
-        <input mdInput placeholder="Address" name="model.address" [(ngModel)]="model.address">
+        <input mdInput placeholder="Address" formControlName="address">
         </md-form-field>
       </div>
     </div>
@@ -78,17 +82,17 @@
     <div class="row">
       <div class="col-sm-4">
         <md-form-field class="example-full-width">
-        <input mdInput placeholder="City" name="model.city" [(ngModel)]="model.city">
+        <input mdInput placeholder="City" formControlName="city" name="model.city" [(ngModel)]="model.city">
         </md-form-field>
       </div>
       <div class="col-sm-4">
         <md-form-field class="example-full-width">
-        <input mdInput placeholder="State" name="model.state" [(ngModel)]="model.state">
+        <input mdInput placeholder="State" formControlName="state">
         </md-form-field>
       </div>
       <div class="col-sm-4">
         <md-form-field class="example-full-width">
-        <input mdInput #postalCode maxlength="5" placeholder="Postal Code" name="model.postalCode" [(ngModel)]="model.postalCode" >
+        <input mdInput #postalCode maxlength="5" formControlName="postalCode" placeholder="Postal Code">
       <!--<md-hint align="end">{{postalCode.value.length}} / 5</md-hint>-->
         </md-form-field>
       </div>
@@ -100,3 +104,4 @@
   </div>
   
 </form>
+</div>

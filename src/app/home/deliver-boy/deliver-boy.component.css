@@ -1,7 +1,23 @@
 form{margin-top: 30px}
 
-md-form-field{width:100%;}
+md-form-field{width:100%;
+				
+			}
 
 md-select {
 	min-width: 250px;
+}
+
+.padding{
+	padding-top: 16px;
+}
+
+h5 { 
+    
+    margin-top: 0.67em;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+    color: #3f51b5;
 }

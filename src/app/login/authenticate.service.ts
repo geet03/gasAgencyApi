@@ -29,10 +29,11 @@ export class AuthenticateService {
   }
 
   login(user) {
+    console.log('inside login');
     let authenticatedUser = users.find(u => u.username === user.username);
     if (authenticatedUser && authenticatedUser.password === user.password){
       localStorage.setItem("user", authenticatedUser.username);
-      this._router.navigate(['/home']);
+      this._router.navigate(['/api']);
       return true;
     }
     return false;

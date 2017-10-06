@@ -5,23 +5,28 @@ import { HomeComponent } from './home.component';
 import { EmployeeComponent } from './employee/employee.component';
 import { DeliverBoyComponent } from './deliver-boy/deliver-boy.component';
 import { AuditComponent } from './audit/audit.component';
+import { AuthGuardService } from '../authentication/service/auth-guard.service';
 
 const homeRoutes : Routes =[
 	{
 		path:'api',
 		component: HomeComponent,
+		canActivate:[AuthGuardService],
 		children:[
 			{
 				path:'employee',
-				component:EmployeeComponent
+				component:EmployeeComponent,
+				canActivateChild:[ AuthGuardService ]
 			},
 			{
 				path:'deliveryBoy',
-				component:DeliverBoyComponent
+				component:DeliverBoyComponent,
+				canActivateChild:[ AuthGuardService ]
 			},
 			{
 				path:'audit',
-				component:AuditComponent
+				component:AuditComponent,
+				canActivateChild:[ AuthGuardService ]
 			}
 		]
 	}

@@ -1,3 +1,10 @@
+<style type="text/css">
+  .date-picker{
+    float:left;
+    padding:10px;
+  }
+
+</style>
 <div class="audit">
 	<!--<form>
 		<div class="row">
@@ -19,15 +26,20 @@
 		</div>-->
 
 		<div class="row">
-			<div class="col-sm-6">		
+			<div class="col-sm-6 col-sm-offset-4">		
             <form [formGroup]="myForm" (ngSubmit)="onSubmitReactiveForms()" novalidate>
-            	<label>select The Date Range: </label>
+            	<!--<label>Select The Date Range: </label>-->
+                <div class="date-picker">
                 <my-date-range-picker 	placeholder="select date range" name="reactiveFormsDateRange" [options]="myDateRangePickerOptions" formControlName="myDateRange"></my-date-range-picker>
-                    <div>
-                        <button class="button" type="submit">Submit</button>
-                        <button class="button" type="button" (click)="setDateRange()">Set Range (today)</button>
-                        <button class="button" type="button" (click)="resetDateRange()">Reset Range (today)</button>
-                        <button class="button" type="button" (click)="clearDateRange()">Set Empty</button>
+                    
+              </div>
+                  <div class="col-sm-12">    
+                      <button md-raised-button color="primary">Submit</button>
+                      <button md-button color="primary"(click)="setDateRange()">Set Range (today)</button>  
+                      <button md-button color="primary"(click)="resetDateRange()">Reset Range (today)</button>
+                      <button md-button color="primary"(click)="clearDateRange()">Set Empty</button>
+                    </div>
+                        <div>
                         <p class="error" *ngIf="myForm.controls.myDateRange.errors">Date range is required!</p>
                     </div>
                 </form>
@@ -43,7 +55,7 @@
 
     <!-- Position Column -->
     <ng-container mdColumnDef="empid">
-      <md-header-cell *mdHeaderCellDef> No. </md-header-cell>
+      <md-header-cell *mdHeaderCellDef> Employee ID </md-header-cell>
       <md-cell *mdCellDef="let element"> {{element.empid}} </md-cell>
     </ng-container>
 

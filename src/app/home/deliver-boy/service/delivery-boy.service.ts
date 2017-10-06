@@ -1,45 +1,73 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import { DeliveryBoy } from '../deliver-boy.model';
-import { ALL_DELIVERY_BOYS } from '../deliverBoy-data';
+//import { ALL_DELIVERY_BOYS } from '../deliverBoy-data';
 
 @Injectable()
 export class DeliveryBoyService {
 
-  constructor() { }
+    dbUrl = "http://localhost:3000/deliverBoys";
 
-  getAllDeliveryBoys() : Observable<DeliveryBoy[]> {
-  	return Observable.of(ALL_DELIVERY_BOYS);
-  }
+    constructor(private http: Http) { }
 
-  getDeliveryBoyByEmpid(empid : string) : Observable<DeliveryBoy>{
-  	return this.getAllDeliveryBoys()
-  				.map(allDeliverBoys=> allDeliverBoys.find(deliveryBoy=> deliveryBoy.empid===empid));
-  }
+    //Create DeliveryBoy
+    createArticle(deliveryBoy: DeliveryBoy):Observable<number> {
+      console.log('Json data------>'+JSON.stringify(deliveryBoy));
+    let cpHeaders = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: cpHeaders });
+        console.log("inside service");
+        return this.http.post(this.dbUrl, deliveryBoy, options)
+               .map(success => success.status)
+               .catch(this.handleError);
+    }
 
-  saveDeliveryBoy(deliveryBoy:DeliveryBoy){
+    private extractData(res: Response) {
+    let body = res.json();
+    //console.log('body---->'+JSON.stringify(body));
+        return body;
+    }
+    private handleError (error: Response | any) {
+    console.error(error.message || error);
+    return Observable.throw(error.status);
+    }
 
-    var deliveryBoys: DeliveryBoy[]=ALL_DELIVERY_BOYS;
+    //Fetch all DeliveryBoys
+    getAllArticles(): Observable<DeliveryBoy[]> {
+      console.log('inside service:----');
+        return this.http.get(this.dbUrl)
+       .map(this.extractData)
+       .catch(this.handleError);
+    }
 
-    deliveryBoys.push({'empid' : deliveryBoy.empid,
-                             'firstName':deliveryBoy.firstName,
-                              'lastName':deliveryBoy.lastName,
-                              'noOfGivenCylinders':deliveryBoy.noOfGivenCylinders,
-                              'noOfGivenPipes':deliveryBoy.noOfGivenOvans,
-                              'noOfGivenOvans':deliveryBoy.noOfGivenPipes,
-                              'noOfGivenRegulators':deliveryBoy.noOfGivenRegulators,
-                              'noOfReturnedCylinders':deliveryBoy.noOfReturnedCylinders,
-                              'noOfReturnedPipes':deliveryBoy.noOfReturnedPipes,
-                              'noOfReturnedOvans':deliveryBoy.noOfReturnedOvans,
-                              'noOfReturnedRegulators':deliveryBoy.noOfReturnedRegulators,
-                              'amountPaid':deliveryBoy.amountPaid,
-                              'returnedAmount':deliveryBoy.returnedAmount,
-                              'personalExpenses':deliveryBoy.personalExpenses
-});
-  	console.log('------DeliveryBoy--------');
-  	console.log('delivery Boy Name' + deliveryBoy.firstName);
-  }
+    //Fetch DeliveryBoy by id
+    getArticleById(empid: string): Observable<DeliveryBoy> {
+    let cpHeaders = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: cpHeaders });
+    console.log(this.dbUrl +"/"+ empid);
+    return this.http.get(this.dbUrl +"/"+ empid)
+       .map(this.extractData)
+       .catch(this.handleError);
+    }    
+    //Update DeliveryBoy
+    updateArticle(deliveryBoy: DeliveryBoy):Observable<number> {
+    let cpHeaders = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: cpHeaders });
+        return this.http.put(this.dbUrl +"/"+ deliveryBoy.id, DeliveryBoy, options)
+               .map(success => success.status)
+               .catch(this.handleError);
+    }
+    //Delete DeliveryBoy    
+    deleteArticleById(empid: string): Observable<number> {
+    let cpHeaders = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: cpHeaders });
+    return this.http.delete(this.dbUrl +"/"+ empid)
+           .map(success => success.status)
+               .catch(this.handleError);
+    }    
+
+  
 
 }
